@@ -17,7 +17,7 @@
   <header>
     <router-link :to="{ name: 'home' }"  class="link" :class=" state.sideMenuValue ? 'nav-off' : '' ">
     
-      <img src="../assets/img/logobarbiere 1.png" alt="" class="logo">
+      <img src="../assets/img/logobarbiere1.png" alt="" class="logo">
     </router-link>
     <nav class="fs-s" :class=" state.sideMenuValue ? 'nav-off' : '' ">
       <router-link :to="{ name: 'home' }"  class="link">HOME</router-link>
