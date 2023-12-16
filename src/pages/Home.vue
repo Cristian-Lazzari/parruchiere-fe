@@ -1,9 +1,9 @@
 <script >
   import {state} from '../state.js'
   import axios from 'axios';
-  import AppHeader from '../components/AppHeader.vue'
+
   export default {
-    components:{ AppHeader },
+
 
     data(){
         return{     
@@ -20,202 +20,235 @@
 </script>
 
 <template>
-    <div class="home">
-        <AppHeader class="hd" />
-        <div class="main-home">
-            
-            <div class="par par-1" id="par1" v-if="state.setting[0].status">
-                <div class="overlay">
-                    <div class="arrow">
-                        1
-                        <a href="#par2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/></svg>
-                        </a>
+    
+    <main>
+        <aside>
+            <section class=" social">
+                <span class="title fs-m">nostri social</span>
+                <div class="social-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
+                        <path d="M19.5 -2.18593e-08C14.2082 -1.59272e-08 13.5428 0.024375 11.4636 0.117C9.38438 0.2145 7.96819 0.541125 6.7275 1.02375C5.4261 1.51325 4.24732 2.28108 3.27356 3.27356C2.28169 4.24782 1.51395 5.42646 1.02375 6.7275C0.541125 7.96575 0.212063 9.38437 0.117 11.4562C0.024375 13.5403 1.59217e-08 14.2033 2.1862e-08 19.5024C2.77968e-08 24.7967 0.024375 25.4597 0.117 27.5389C0.2145 29.6156 0.541125 31.0318 1.02375 32.2725C1.52344 33.5546 2.18888 34.6418 3.27356 35.7264C4.35581 36.8111 5.44294 37.479 6.72506 37.9762C7.96819 38.4589 9.38194 38.7879 11.4587 38.883C13.5403 38.9756 14.2033 39 19.5 39C24.7967 39 25.4573 38.9756 27.5389 38.883C29.6132 38.7855 31.0343 38.4589 32.2749 37.9762C33.5755 37.4865 34.7534 36.7187 35.7264 35.7264C36.8111 34.6418 37.4766 33.5546 37.9762 32.2725C38.4564 31.0318 38.7855 29.6156 38.883 27.5389C38.9756 25.4597 39 24.7967 39 19.5C39 14.2033 38.9756 13.5403 38.883 11.4587C38.7855 9.38438 38.4564 7.96575 37.9762 6.7275C37.4861 5.42642 36.7184 4.24777 35.7264 3.27356C34.753 2.28071 33.5741 1.51282 32.2725 1.02375C31.0294 0.541125 29.6108 0.212062 27.5364 0.117C25.4548 0.024375 24.7943 -2.77941e-08 19.4951 -2.18538e-08L19.5024 -2.1862e-08L19.5 -2.18593e-08ZM17.7523 3.51488L19.5024 3.51488C24.7089 3.51488 25.3256 3.53194 27.3804 3.627C29.2817 3.71231 30.3152 4.03163 31.0026 4.29731C31.9117 4.65075 32.5626 5.07487 33.2451 5.75737C33.9276 6.43988 34.3493 7.08825 34.7027 7.99988C34.9708 8.68481 35.2877 9.71831 35.373 11.6196C35.4681 13.6744 35.4876 14.2911 35.4876 19.4951C35.4876 24.6992 35.4681 25.3183 35.373 27.3731C35.2877 29.2744 34.9684 30.3054 34.7027 30.9928C34.3901 31.8395 33.8911 32.6051 33.2426 33.2329C32.5601 33.9154 31.9118 34.3371 31.0001 34.6905C30.3176 34.9586 29.2841 35.2755 27.3804 35.3633C25.3256 35.4559 24.7089 35.4778 19.5024 35.4778C14.2959 35.4778 13.6768 35.4559 11.622 35.3633C9.72075 35.2755 8.68969 34.9586 8.00231 34.6905C7.15528 34.3783 6.38899 33.8802 5.75981 33.2329C5.11083 32.6041 4.61107 31.8378 4.29731 30.9904C4.03163 30.3054 3.71231 29.2719 3.627 27.3707C3.53438 25.3159 3.51488 24.6992 3.51488 19.4902C3.51488 14.2837 3.53438 13.6695 3.627 11.6147C3.71475 9.71344 4.03163 8.67994 4.29975 7.99256C4.65319 7.08337 5.07731 6.43256 5.75981 5.75006C6.44231 5.06756 7.09069 4.64587 8.00231 4.29244C8.68969 4.02431 9.72075 3.70744 11.622 3.61969C13.4209 3.53681 14.118 3.51244 17.7523 3.51L17.7523 3.51488ZM29.9106 6.75187C29.6033 6.75187 29.299 6.8124 29.0151 6.93C28.7312 7.04759 28.4732 7.21996 28.2559 7.43725C28.0386 7.65453 27.8663 7.91249 27.7487 8.1964C27.6311 8.4803 27.5706 8.78458 27.5706 9.09188C27.5706 9.39917 27.6311 9.70345 27.7487 9.98735C27.8663 10.2713 28.0386 10.5292 28.2559 10.7465C28.4732 10.9638 28.7312 11.1362 29.0151 11.2538C29.299 11.3713 29.6033 11.4319 29.9106 11.4319C30.5312 11.4319 31.1264 11.1853 31.5652 10.7465C32.004 10.3077 32.2506 9.71248 32.2506 9.09188C32.2506 8.47127 32.004 7.87608 31.5652 7.43725C31.1264 6.99841 30.5312 6.75187 29.9106 6.75187ZM19.5024 9.48675C18.1742 9.46603 16.8551 9.70975 15.6219 10.2037C14.3887 10.6977 13.2661 11.432 12.3195 12.364C11.3729 13.296 10.6211 14.407 10.1079 15.6323C9.59478 16.8576 9.33051 18.1728 9.33051 19.5012C9.33051 20.8296 9.59478 22.1448 10.1079 23.3701C10.6211 24.5954 11.3729 25.7064 12.3195 26.6384C13.2661 27.5704 14.3887 28.3047 15.6219 28.7987C16.8551 29.2927 18.1742 29.5364 19.5024 29.5157C22.1314 29.4747 24.6388 28.4015 26.4834 26.5279C28.328 24.6543 29.3619 22.1305 29.3619 19.5012C29.3619 16.872 28.328 14.3481 26.4834 12.4745C24.6388 10.6009 22.1314 9.52777 19.5024 9.48675ZM19.5024 12.9992C21.2266 12.9992 22.8801 13.6841 24.0992 14.9032C25.3183 16.1224 26.0033 17.7759 26.0033 19.5C26.0033 21.2241 25.3183 22.8776 24.0992 24.0968C22.8801 25.3159 21.2266 26.0008 19.5024 26.0008C17.7783 26.0008 16.1248 25.3159 14.9057 24.0968C13.6865 22.8776 13.0016 21.2241 13.0016 19.5C13.0016 17.7759 13.6865 16.1224 14.9057 14.9032C16.1248 13.6841 17.7783 12.9992 19.5024 12.9992Z" fill="white"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
+                        <path d="M39 19.6194C39 8.78365 30.27 -3.39323e-08 19.5024 -2.1862e-08C8.73003 0.00243719 9.84637e-09 8.78365 2.19959e-08 19.6219C3.29706e-08 29.4121 7.13123 37.5279 16.4511 39L16.4511 25.2908L11.5036 25.2908L11.5036 19.6219L16.4559 19.6219L16.4559 15.2958C16.4559 10.38 19.3684 7.66498 23.8211 7.66498C25.9561 7.66498 28.1862 8.04762 28.1862 8.04762L28.1862 12.8733L25.727 12.8733C23.3069 12.8733 22.5514 14.3868 22.5514 15.9393L22.5514 19.6194L27.9571 19.6194L27.0943 25.2883L22.5489 25.2883L22.5489 38.9976C31.8688 37.5255 39 29.4096 39 19.6194Z" fill="white"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="39" viewBox="0 0 38 39" fill="none">
+                        <path d="M32.4484 5.66973C30.6984 3.86519 28.6144 2.43455 26.3178 1.46117C24.0212 0.487779 21.5579 -0.00888291 19.0716 0.000120221C8.65306 0.000120233 0.16223 8.67272 0.152687 19.3197C0.152687 22.7297 1.02587 26.0472 2.67441 28.9843L4.37185e-08 39L10.0296 36.3139C12.8043 37.8566 15.9127 38.6652 19.0716 38.6661L19.0811 38.6661C29.502 38.6661 37.9904 29.9935 38 19.3367C38.0024 16.797 37.5129 14.2818 36.5597 11.9362C35.6064 9.5906 34.2108 7.46087 32.4484 5.66973ZM19.0716 35.3949C16.254 35.3959 13.4882 34.6213 11.065 33.1525L10.4925 32.8015L4.54244 34.3956L6.13134 28.4652L5.75917 27.8533C4.18412 25.2948 3.35112 22.3325 3.35673 19.3099C3.35673 10.4716 10.4113 3.26149 19.0811 3.26149C21.1465 3.2577 23.1923 3.67165 25.1004 4.47948C27.0085 5.28731 28.7412 6.47303 30.1986 7.96828C31.6612 9.45771 32.8206 11.2282 33.6101 13.1778C34.3995 15.1273 34.8034 17.2172 34.7983 19.327C34.7888 28.197 27.7342 35.3949 19.0716 35.3949ZM27.696 23.3684C27.226 23.127 24.9047 21.9595 24.4681 21.7937C24.0339 21.6353 23.7166 21.5524 23.4064 22.0351C23.0891 22.5152 22.1826 23.6097 21.9106 23.9241C21.6386 24.2483 21.3571 24.2849 20.8847 24.046C20.4147 23.8022 18.8903 23.2952 17.0866 21.6451C15.6791 20.3654 14.7367 18.781 14.4552 18.3008C14.1832 17.8182 14.4289 17.5598 14.6651 17.3185C14.8727 17.104 15.1351 16.753 15.3713 16.4751C15.6099 16.1973 15.6886 15.9925 15.8437 15.6708C15.9987 15.3441 15.9248 15.0663 15.8079 14.8249C15.6886 14.5836 14.7462 12.2022 14.3478 11.2418C13.9661 10.2937 13.5772 10.4253 13.2862 10.4131C13.0142 10.396 12.6969 10.396 12.3796 10.396C12.14 10.4021 11.9042 10.4587 11.687 10.5623C11.4698 10.6659 11.2759 10.8143 11.1175 10.9981C10.6833 11.4807 9.46898 12.6483 9.46898 15.0297C9.46898 17.4111 11.1629 19.6999 11.4014 20.0241C11.6352 20.3483 14.7271 25.2209 19.4724 27.3171C20.5937 27.8168 21.4764 28.1117 22.1659 28.336C23.2991 28.7065 24.3226 28.6504 25.1385 28.531C26.0451 28.3896 27.9322 27.361 28.3306 26.2324C28.7219 25.1014 28.7219 24.1362 28.6026 23.9339C28.4857 23.7291 28.1684 23.6097 27.696 23.3684Z" fill="white"/>
+                    </svg>
+                </div>
+                
+            </section>
+            <section class=" orari-aperture">
+                <span class="title fs-m">orari</span>
+                <div class="fs-xs">
+                    <div class="giorni">
+                        <span class="giorno">lunedì</span>
+                        <span class="giorno">martedì</span>
+                        <span class="giorno">mercoledì</span>
+                        <span class="giorno">giovedì</span>
+                        <span class="giorno">sabato</span>
+                        <span class="giorno">domenica</span>
                     </div>
-                    <div class="t-c">
-                        <h2 id="h2par1"><span class="s1">ORDINA</span> IL NOSTRO <span class="s2">ASPORTO</span> </h2>
-                        <span>La serata perfetta non esis... E invece esiste eccome! Nasce proprio dal pasto perfetto, quindi che aspetti prenota ora la tua pizza o il tavolo per poterla gustare da noi </span>
+                    <div class="orari">
+                        <span class="orario">chiuso</span>
+                        <span class="orario">8:30 - 12:30 / 16:00 - 20:00</span>
+                        <span class="orario">8:30 - 12:30 / 16:00 - 20:00</span>
+                        <span class="orario">8:30 - 12:30 / 16:00 - 20:00</span>
+                        <span class="orario">8:30 - 12:30 / 16:00 - 20:00</span>
+                        <span class="orario">8:30 - 12:30 / 16:00 - 20:00</span>
                     </div>
-                    <router-link :to="{ name: 'prenota' }" class="btn" >Prenota asporto</router-link>
+                </div>
+                
+            </section>
+            <section class=" luogo">
+                <span class="title fs-m">dove siamo</span>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="29" height="38" viewBox="0 0 29 38" fill="none">
+                        <path d="M14.5 38C14.5 38 29 24.4958 29 14.25C29 10.4707 27.4723 6.84612 24.753 4.17373C22.0338 1.50133 18.3456 -2.05652e-08 14.5 -1.62543e-08C10.6544 -1.19434e-08 6.96623 1.50133 4.24695 4.17373C1.52767 6.84612 6.9042e-08 10.4707 1.59741e-08 14.25C2.74594e-08 24.4958 14.5 38 14.5 38ZM14.5 21.375C12.5772 21.375 10.7331 20.6243 9.37348 19.2881C8.01384 17.9519 7.25 16.1397 7.25 14.25C7.25 12.3603 8.01384 10.5481 9.37348 9.21186C10.7331 7.87567 12.5772 7.125 14.5 7.125C16.4228 7.125 18.2669 7.87567 19.6265 9.21186C20.9862 10.5481 21.75 12.3603 21.75 14.25C21.75 16.1397 20.9862 17.9519 19.6265 19.2881C18.2669 20.6243 16.4228 21.375 14.5 21.375Z" fill="white"/>
+                    </svg>
+                    <div class="via fs-xs">Via 12 qualcosa 12313 qualcosa</div>
+
+                </div>
+
+            </section>
+        </aside>
+        <div class="main-content">
+            <div class="p">
+                <span class="title fs-m">Rinnova il tuo look oggi</span>
+                <span class="fs-m">Non aspettare, lascia che i nostri esperti trasformino i tuoi capelli in una vera opera d'arte!</span>
+                <div class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+                        <path d="M8.77427 9.97567C5.80698 6.49317 8.51558 2.39044 13.1199 0.416922L30.6683 24.8678L48.8805 1.23097C53.4275 3.41281 56.0211 7.63623 52.9596 10.9815L34.5711 30.3032L42.0684 40.7535C44.7902 39.7306 47.9157 39.5452 50.8404 40.2333C53.765 40.9214 56.2811 42.434 57.9018 44.4786C59.5226 46.5232 60.1329 48.9545 59.6148 51.3023C59.0967 53.65 57.4869 55.7474 55.0968 57.1887C52.7067 58.6301 49.7061 59.313 46.6754 59.1054C43.6447 58.8978 40.7992 57.8144 38.6893 56.0648C36.5794 54.3152 35.3549 52.0237 35.2528 49.6335C35.1506 47.2433 36.178 44.9242 38.1363 43.1247L30.5347 34.5379L22.701 42.7695C24.6083 44.6569 25.5711 47.0213 25.403 49.4054C25.235 51.7895 23.948 54.0238 21.7911 55.6763C19.6342 57.3288 16.7606 58.282 13.7261 58.3515C10.6915 58.421 7.71168 57.602 5.36288 56.0527C3.01407 54.5035 1.46319 52.3342 1.0102 49.9643C0.557207 47.5945 1.23428 45.1925 2.91048 43.223C4.58667 41.2534 7.14288 39.8563 10.0847 39.3017C13.0265 38.7472 16.1449 39.0746 18.8368 40.2208L26.6178 30.1221L8.77427 9.97567ZM20.5148 48.8736C20.536 47.3373 19.7804 45.8462 18.4144 44.7284C17.0483 43.6106 15.1836 42.9576 13.2305 42.9132C11.2774 42.8687 9.39587 43.4364 7.99981 44.4913C6.60375 45.5462 5.80754 47.002 5.78633 48.5383C5.76512 50.0747 6.52064 51.5657 7.8867 52.6835C9.25276 53.8013 11.1175 54.4543 13.0706 54.4987C15.0237 54.5432 16.9052 53.9755 18.3013 52.9206C19.6973 51.8657 20.4936 50.4099 20.5148 48.8736ZM54.8811 49.6559C54.9023 48.1196 54.1468 46.6285 52.7807 45.5107C51.4147 44.3929 49.55 43.74 47.5969 43.6955C45.6438 43.651 43.7622 44.2187 42.3662 45.2736C40.9701 46.3285 40.1739 47.7843 40.1527 49.3206C40.1315 50.857 40.887 52.3481 42.2531 53.4658C43.6191 54.5836 45.4838 55.2366 47.4369 55.2811C49.39 55.3255 51.2716 54.7578 52.6676 53.7029C54.0637 52.648 54.8599 51.1922 54.8811 49.6559Z" fill="#F2F2F2"/>
+                    </svg>
+                    <router-link class="btn-link" :to="{ name: 'prenotaServizio' }" @click="state.updateActvPage(3)" >Prenota</router-link> 
                 </div>
             </div>
-            <div class="par par-2" id="par2" v-if="state.setting[1].status">
-            <div class="overlay">
-                <div class="arrow">
-                    <a href="#par1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
-                    </a>
-                    2
-                    <a href="#par3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/></svg>
-                        </a>
-                </div>
-                <div class="t-c">
-                    <h2 id="h2par2"><span class="s1 s1-m">PRENOTA ORA</span> IL TUO <span class="s2 s2-m">TAVOLO</span></h2>
-                    <span>E se volessi cenare proprio da noi? Prenota subito il tuo tavolo ti aspettiamo a cena da noi!</span>
-                </div>
-                <router-link :to="{ name: 'prenotaServizio' }" class="btn" >Prenota un tavolo</router-link>
-            </div>
-            </div>
-            <div class="par par-3" id="par3">
-                <div class="overlay">
-                    <div class="arrow">
-                    <a href="#par2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
-                    </a>
-                    3
-                </div>
-                    <div class="t-c">
-                        <h2 id="h2par3">SCOPRI IL NOSTRO MENU</h2>
-                        <span>
-                            Se ancora non hai provato le sfiziosità della nostra cucina devi assolutamente vedere il nostro menù
-                        </span>
-                    </div>
-                    <router-link :to="{ name: 'menu' }" class="btn" >Menù</router-link>
-                </div>
-            </div>
+           <img src="../assets/img/PETTINE.png" alt="" class="pettine">
         </div>
-
-    </div>
-
+    </main>
 </template>
 
 <style scoped lang="scss">
 @use '../assets/styles/general.scss' as *;
+main{
+   
+    padding: 0 10px;
+    display: flex;
+    gap: 10px;
 
-*{
-    font-family: 'Gabarito', cursive;
-}
-
-.main-home::-webkit-scrollbar{
-        
-        width: 10px;
-        height: 10px;
-        
-    }
-
-.main-home::-webkit-scrollbar-thumb {
-    border-radius: 20px;
-    background: $c-header;
-    
-}
-.main-home::-webkit-scrollbar-track {
-    border-radius: 20px;
-    background: rgba(52, 4, 7, 0.786);
-    
-}
-.main-home::-webkit-scrollbar-thumb:hover {
-    border-radius: 20px;
-    background-color: $c-nav-link;
-    border: 2px solid $c-header;
-    
-}
-.hd{box-shadow: 10px 10px 10px black; }
-.home{
-    position: fixed;
-    top: 0;
-    right: 0;
+    background-image: url('../assets/img/Schermata\ 2023-12-13\ alle\ 11.04.29.png');
+    background-size: cover;
+    background-repeat: no-repeat;
     overflow: hidden;
-    padding-bottom: 1rem;
-    height: calc(100%);
-    .main-home{
-        padding-bottom: 1rem;
-        //margin-bottom: 1rem;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        height: 60%;
-        width: calc(100% - 2rem);
-        margin-left: 2rem;
+    
+    
+    
+    aside{
+        width: 500px;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(77, 68, 55, 0.40) 0.01%, #70634F 76.04%);
         display: flex;
-        gap: 3rem;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 30px;
+        padding: 30px;
+        section{
+            color: white;
+            width: 99%;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Athiti', sans-serif;
+            
+            .title{
+                text-transform: uppercase;
+                color: white;
+                font-family: Athiti;
+       
+                font-weight: 700;
+                margin: 0 0 10% 13%
+            }
+            
+        }
+        .orari-aperture{
+            div{
+                width: 100%;
+                @include dfc;
+                justify-content: space-between;
+                
+                .giorni, .orari{
+                    flex-direction: column;
+                    gap: 5px;
+                    width: fit-content;
+                }
+                .giorni{
+                    text-transform: uppercase;
+                    font-weight: 700;
+                    align-items: flex-start
+                }
+            }
+        }
+        .social{
+            .social-container{
+                @include dfc;
+                justify-content: space-between;
+            }
+        }
+        .luogo{
+            div{
+                @include dfc;
+                justify-content: space-between;
+                .via{
+                    max-width: 80%;
+                }
+            }
+        }
+    }
+    .main-content{
+        @include dfj;
+
+        color: white;
+        width: 100%;
+        flex-direction: column;
+        position: relative;
+        align-items: flex-start;
+        .p{
+            
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 550px;
+            margin: 0 0 30px 30px;
+            
+            .title{
+                width: 350px;
+                font-family: Athiti;
+                font-size: 50px;
+                font-weight: 700;
+                line-height: 3.3rem;
+                letter-spacing: -4px;
+                text-transform: uppercase;
+            }
+            span{
+                font-family: Athiti;
+
+                font-style: normal;
+                font-weight: 700;
+                line-height: 2.5rem;
+
+
+            }
+            .button{
+                align-self: flex-end;
+            }
+         
+           
+        }
         
-        .arrow{
+        .pettine{
+            width: 150%;
+            max-width: 1100px ;
+            margin-right: -30%;
             position: absolute;
             top: 0;
             right: 0;
-            z-index: 100;
-            display: flex;
-            padding: 10px;
-            gap: .4rem;
+            margin-right: -58%;
         }
-        .par{
-            
-            scroll-snap-align: start;
-            flex: 1 0 auto;
-            height: 100%;
-            width: 100%!important;
-            color: $c-white;
-            //filter: grayscale(50);
-            background-position: center bottom;
-            background-size: cover;
-            position: relative;
-            .overlay{
-                background: linear-gradient(rgba(0, 0, 0, 0.832), rgba(0, 0, 0, 0.359));
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                right: 0;
-                left: 0;
-                
-                padding: 2rem;
-                @include dfc;
-                gap: 2rem;
-                justify-content: space-between;
-                .t-c{
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-                    max-width: 70%;
-                    h2{
-                        line-height: 38px;
-                        max-width: 200px;
-                        font-size: 40px;
-                        .s1{
-                            font-size: 115%;
-                            
-                        }
-                        .s2{
-                            font-size: 140%;
-                            
-                        }
-                    }
-                    
-                }
-            }
+       
+    }
+}
+svg{
+    width: 30px;
+    height: 30px;
+}
+@media (min-width:1000px) {
+    .pettine{
+        margin-right: -50% !important;
+    }
+    
+}
+@media (min-width:1200px) {
+    .pettine{
+        margin-right: -40% !important;
+    }
+    
+}
+@media (min-width:1400px) {
+    .pettine{
+        margin-right: -30% !important;
+    }
+    
+}
+@media (min-width:1600px) {
+    .pettine{
+        margin-right: -20% !important;
+    }
+    
+}
+@media (min-width:1800px) {
+    .pettine{
+        margin-right: -15% !important;
+    }
+    
+}
 
-        }
-    }
-}
-.par-1{
-    background-image: url('../assets/img/pizza-4.png');
-    background-position: center !important;
-}
-.par-2{
-    background-image: url('../assets/img/pizza-2.png');
-}
-.par-3{
-    background-image: url('../assets/img/pizza-olio.png');
 
-}
-@media (max-width:$bp1) {
-    .home{
-        padding: 0 !important;
-    }
-    .main-home{
-        padding: 0 !important;
-        margin: 0!important;
-        width: 100%!important;
-    }
-    .overlay{
-        flex-direction: column!important;
-    }
-  
-    #h2par1, #h2par2, #h2par3
-    {
-        font-size: 28px;
-    }
-}
-@media (max-width:$bp1) {
-
-}
 </style>

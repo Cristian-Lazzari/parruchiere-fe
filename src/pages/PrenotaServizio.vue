@@ -1,16 +1,17 @@
 <script>
 import { state } from "../state.js";
 import axios from "axios";
-import sh from '../components/SHeader.vue'
+
 
 export default {
-  components:{sh},
+
   
   data() {
     return {
       state,
       
       nameMesi:['','gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno','luglio', 'agosto', 'settembre', 'ottobre', 'novembre ', 'dicembre'],
+      nameGiorni : ['','lunedi','martedi','mercoledi','giovedi','venerdi','sabato','domenica'],
       arrDateApi:[],
       arrDateOk:[
         {
@@ -21,13 +22,13 @@ export default {
           "mese":'',
           "giorni":[],
         },
-        // {
-        //   "mese":'',
-        //   "giorni":[],
-        // },
+        {
+          "mese":'',
+          "giorni":[],
+        },
 
       ],
-      
+      arrService: [],
       
       name: "",
       phone: "",
@@ -36,11 +37,20 @@ export default {
       
       nameError: "",
       phoneError: "",
-      timeError: "",
+      serviceError: "",
       dateError: "",
       
-      selectedMonth: 0,
+      selectedMonth: 0,   //puo essere solo 0 1 2
+      selectedDay: {
+        "day":'',
+        "day_week":'',
+        "year":'',
+        "month":'',
+        "time":[],
+        "i":'0',
+      },
       fillerday: 0,
+      select :  false,
       
       isValid: true,
       loading: false,
@@ -49,6 +59,12 @@ export default {
     };
   },
   methods: {
+
+    getservice(){
+      axios.get(this.state.baseUrl + "api/services")
+      .then((response) => {
+        this.arrService = response.data.results;})
+    },
 
     filterDate(){
       axios.get(this.state.baseUrl + "api/dates")
@@ -59,15 +75,9 @@ export default {
         let cOra = oggi.getHours()
         let cGiorno = oggi.getDate()
         let cMese = oggi.getMonth()+1
-  
-        this.arrDateApi.forEach(element => {
-  
-          if(cMese <= element.month && element.month <= (cMese + 2)){
-            firstFilter.push(element)
-            
-          }
-        });
-    
+       // let cMese = 10
+        let cYear = oggi.getFullYear()
+        let otheryear= 0
   
         //1
         this.selectedMonth = 0
@@ -79,53 +89,71 @@ export default {
 
         this.arrDateOk[0].mese=firstM.mese
 
-        firstFilter.forEach(element => {
-          if(element.month == cMese){
+        this.arrDateApi.forEach(element => {
+          if(element.month == cMese && element.year == cYear && element.visible == 1){
             firstM.giorni.push(element)
+            
           }
         });
         
         
-        for(let i = 0; i < firstM.giorni.length; i= i+1){
+        otheryear = 12 - firstM.giorni[0].month
+        console.log(otheryear)
+        for(let i = 0; i < firstM.giorni.length; i++){
           //console.log('ciao')
+          let pmam = "am"
+          let o = firstM.giorni[i].time.split('')
+          o.length = o.length - 3
+          o = o.join('')
+          o = parseInt(o);
+          if( o > 15){
+            pmam = "pm"
+          }
+          console.log(pmam)
           let newgiorno = {
           "giorno" : firstM.giorni[i].day,
           "dayweek" : firstM.giorni[i].day_w,
           "orari" : [ 
               {
                 "orario" : firstM.giorni[i].time,
-                "status" : false,
+                "pmam"  : pmam,
                 "date_id" : firstM.giorni[i].id,
               }         
             ],
-          "selected" : false       
+          "selected" : false,
+          "year" : firstM.giorni[i].year,
+          "month" : firstM.giorni[i].month,       
           }
-
+   
           if(this.arrDateOk[0].giorni.length == 0 && newgiorno.giorno > cGiorno){
             this.arrDateOk[0].giorni.push(newgiorno)
             
           }else{
-            
-            if(this.arrDateOk[0].giorni[this.arrDateOk[0].giorni.length - 1].giorno == newgiorno.giorno){
-              this.arrDateOk[0].giorni[this.arrDateOk[0].giorni.length - 1].orari.push(newgiorno.orari[0])
-            }else{
-              this.arrDateOk[0].giorni.push(newgiorno)
+            if(newgiorno.giorno > cGiorno){
+              if(this.arrDateOk[0].giorni[this.arrDateOk[0].giorni.length - 1].giorno == newgiorno.giorno){
+                this.arrDateOk[0].giorni[this.arrDateOk[0].giorni.length - 1].orari.push(newgiorno.orari[0])
+              }else{
+                this.arrDateOk[0].giorni.push(newgiorno)
+              }
             }
-          }
-          
+          }        
         }
-
+        
         this.fillerday = this.arrDateOk[0].giorni[0].dayweek - 1
-        //2
+        
+        console.log(this.arrDateOk[0].giorni[0].dayweek)
+
+        if(otheryear == 0){
+          //2
         let secondM={
-          "mese":cMese + 1,
+          "mese": 1,
           "giorni":[],
         };
 
         this.arrDateOk[1].mese=secondM.mese
 
-        firstFilter.forEach(element => {
-          if(element.month == cMese + 1){
+        this.arrDateApi.forEach(element => {
+          if(element.month == 1 && element.year == cYear + 1 && element.visible == 1){
             secondM.giorni.push(element)
           }
         });
@@ -133,100 +161,365 @@ export default {
         
         for(let i = 0; i < secondM.giorni.length; i= i+1){
           //console.log('ciao')
+          let pmam = "am"
+          let o = secondM.giorni[i].time.split('')
+          o.length = o.length - 3
+          o = o.join('')
+          o = parseInt(o);
+          if( o > 15){
+            pmam = "pm"
+          }
+          console.log(pmam)
           let newgiorno = {
           "giorno" : secondM.giorni[i].day,
           "dayweek" : secondM.giorni[i].day_w,
           "orari" : [ 
               {
                 "orario" : secondM.giorni[i].time,
-                "status" : false,
+                "pmam"  : pmam,
                 "date_id" : secondM.giorni[i].id,
               }         
             ],
-          "selected" : false      
+          "selected" : false,
+          "year" : secondM.giorni[i].year,
+          "month" : secondM.giorni[i].month,      
           }
 
-          if(this.arrDateOk[1].giorni.length == 0){
+          if(this.arrDateOk[1].giorni.length == 0 ){
             this.arrDateOk[1].giorni.push(newgiorno)
             
           }else{
+      
+              if(this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].giorno == newgiorno.giorno){
+                this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].orari.push(newgiorno.orari[0])
+              }else{
+                this.arrDateOk[1].giorni.push(newgiorno)
+              }
             
-            if(this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].giorno == newgiorno.giorno){
-              this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].orari.push(newgiorno.orari[0])
-            }else{
-              this.arrDateOk[1].giorni.push(newgiorno)
-            }
-          }
-          
+          }      
         }
+
+        //3
+      let thirdM={
+        "mese": 2,
+        "giorni":[],
+      };
+  
+      this.arrDateOk[2].mese=thirdM.mese
+  
+      this.arrDateApi.forEach(element => {
+        if(element.month == 2 && element.year == cYear + 1 && element.visible == 1){
+          thirdM.giorni.push(element)
+        }
+      });
+      
+      
+      for(let i = 0; i < thirdM.giorni.length; i= i+1){
+
+        let pmam = "am"
+        let o = thirdM.giorni[i].time.split('')
+        o.length = o.length - 3
+        o = o.join('')
+        o = parseInt(o);
+        if( o > 15){
+          pmam = "pm"
+        }
+        console.log(pmam)
+        let newgiorno = {
+        "giorno" : thirdM.giorni[i].day,
+        "dayweek" : thirdM.giorni[i].day_w,
+        "orari" : [ 
+            {
+              "orario" : thirdM.giorni[i].time,
+              "pmam"  : pmam,
+              "date_id" : thirdM.giorni[i].id,
+            }         
+          ],
+        "selected" : false,
+        "year" :  thirdM.giorni[i].year,
+        "month" :  thirdM.giorni[i].month,      
+        }
+  
+        if(this.arrDateOk[2].giorni.length == 0 ){
+          this.arrDateOk[2].giorni.push(newgiorno)
+          
+        }else{
+    
+            if(this.arrDateOk[2].giorni[this.arrDateOk[2].giorni.length - 1].giorno == newgiorno.giorno){
+              this.arrDateOk[2].giorni[this.arrDateOk[2].giorni.length - 1].orari.push(newgiorno.orari[0])
+            }else{
+              this.arrDateOk[2].giorni.push(newgiorno)
+            }
+          
+        }      
+      }
+      }
+        else if(otheryear == 1){
+          //2
+        let secondM={
+          "mese": cMese + 1,
+          "giorni":[],
+        };
+
+        this.arrDateOk[1].mese=secondM.mese
+
+        this.arrDateApi.forEach(element => {
+          if(element.month == 12 && element.year == cYear + 1 && element.visible == 1){
+            secondM.giorni.push(element)
+          }
+        });
+        
+        
+        for(let i = 0; i < secondM.giorni.length; i= i+1){
+          //console.log('ciao')
+          let pmam = "am"
+          let o = secondM.giorni[i].time.split('')
+          o.length = o.length - 3
+          o = o.join('')
+          o = parseInt(o);
+          if( o > 15){
+            pmam = "pm"
+          }
+          console.log(pmam)
+          let newgiorno = {
+          "giorno" : secondM.giorni[i].day,
+          "dayweek" : secondM.giorni[i].day_w,
+          "orari" : [ 
+              {
+                "orario" : secondM.giorni[i].time,
+                "pmam"  : pmam,
+                "date_id" : secondM.giorni[i].id,
+              }         
+            ],
+          "selected" : false,
+          "year" : secondM.giorni[i].year,
+          "month" : secondM.giorni[i].month,      
+          }
+
+          if(this.arrDateOk[1].giorni.length == 0 ){
+            this.arrDateOk[1].giorni.push(newgiorno)
+            
+          }else{
+      
+              if(this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].giorno == newgiorno.giorno){
+                this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].orari.push(newgiorno.orari[0])
+              }else{
+                this.arrDateOk[1].giorni.push(newgiorno)
+              }
+            
+          }      
+        }
+
+        //3
+      let thirdM={
+        "mese": 1,
+        "giorni":[],
+      };
+  
+      this.arrDateOk[2].mese=thirdM.mese
+  
+      this.arrDateApi.forEach(element => {
+        if(element.month == 2 && element.year == cYear + 1){
+          thirdM.giorni.push(element)
+        }
+      });
+      
+      
+      for(let i = 0; i < thirdM.giorni.length; i= i+1){
+
+        let pmam = "am"
+        let o = thirdM.giorni[i].time.split('')
+        o.length = o.length - 3
+        o = o.join('')
+        o = parseInt(o);
+        if( o > 15){
+          pmam = "pm"
+        }
+        console.log(pmam)
+        console.log(o)
+        let newgiorno = {
+        "giorno" : thirdM.giorni[i].day,
+        "dayweek" : thirdM.giorni[i].day_w,
+        "orari" : [ 
+            {
+              "orario" : thirdM.giorni[i].time,
+              "pmam"  : pmam,
+              "date_id" : thirdM.giorni[i].id,
+            }         
+          ],
+        "selected" : false,
+        "year" : thirdM.giorni[i].year,
+        "month" : thirdM.giorni[i].month,      
+        }
+  
+        if(this.arrDateOk[2].giorni.length == 0 ){
+          this.arrDateOk[2].giorni.push(newgiorno)
+          
+        }else{
+    
+            if(this.arrDateOk[2].giorni[this.arrDateOk[2].giorni.length - 1].giorno == newgiorno.giorno){
+              this.arrDateOk[2].giorni[this.arrDateOk[2].giorni.length - 1].orari.push(newgiorno.orari[0])
+            }else{
+              this.arrDateOk[2].giorni.push(newgiorno)
+            }
+          
+        }      
+      }
+      }
+      else{
+           //2
+           let secondM={
+          "mese": cMese + 1,
+          "giorni":[],
+        };
+
+        this.arrDateOk[1].mese=secondM.mese
+
+        this.arrDateApi.forEach(element => {
+          if(element.month ==  cMese + 1 && element.year == cYear && element.visible == 1){
+            secondM.giorni.push(element)
+          }
+        });
+        
+        
+        for(let i = 0; i < secondM.giorni.length; i= i+1){
+          //console.log('ciao')
+          let pmam = "am"
+          let o = secondM.giorni[i].time.split('')
+          o.length = o.length - 3
+          o = o.join('')
+          o = parseInt(o);
+          if( o > 15){
+            pmam = "pm"
+          }
+          console.log(pmam)
+          let newgiorno = {
+          "giorno" : secondM.giorni[i].day,
+          "dayweek" : secondM.giorni[i].day_w,
+          "orari" : [ 
+              {
+                "orario" : secondM.giorni[i].time,
+                "pmam"  : pmam,
+                "date_id" : secondM.giorni[i].id,
+              }         
+            ],
+          "selected" : false,
+          "year" : secondM.giorni[i].year,
+          "month" : secondM.giorni[i].month,      
+          }
+
+          if(this.arrDateOk[1].giorni.length == 0 ){
+            this.arrDateOk[1].giorni.push(newgiorno)
+            
+          }else{
+      
+              if(this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].giorno == newgiorno.giorno){
+                this.arrDateOk[1].giorni[this.arrDateOk[1].giorni.length - 1].orari.push(newgiorno.orari[0])
+              }else{
+                this.arrDateOk[1].giorni.push(newgiorno)
+              }
+            
+          }      
+        }
+
+        //3
+      let thirdM={
+        "mese":cMese + 2,
+        "giorni":[],
+      };
+  
+      this.arrDateOk[2].mese=thirdM.mese
+  
+      this.arrDateApi.forEach(element => {
+        if(element.month == cMese + 2 && element.year == cYear && element.visible == 1){
+          thirdM.giorni.push(element)
+        }
+      });
+      
+      
+      for(let i = 0; i < thirdM.giorni.length; i= i+1){
+
+        let pmam = "am"
+        let o = thirdM.giorni[i].time.split('')    
+        o.length = o.length - 3
+        o = o.join('')
+        o = parseInt(o);
+        if( o > 15){
+          pmam = "pm"
+        }
+        console.log(pmam)
+        let newgiorno = {
+        "giorno" : thirdM.giorni[i].day,
+        "dayweek" : thirdM.giorni[i].day_w,
+        "orari" : [ 
+            {
+              "orario" : thirdM.giorni[i].time,
+              "pmam"  : pmam,
+              "date_id" : thirdM.giorni[i].id,
+            }         
+          ],
+        "selected" : false,
+        "year" : thirdM.giorni[i].year,
+        "month" : thirdM.giorni[i].month ,      
+        }
+  
+        if(this.arrDateOk[2].giorni.length == 0 ){
+          this.arrDateOk[2].giorni.push(newgiorno)
+          
+        }else{
+    
+            if(this.arrDateOk[2].giorni[this.arrDateOk[2].giorni.length - 1].giorno == newgiorno.giorno){
+              this.arrDateOk[2].giorni[this.arrDateOk[2].giorni.length - 1].orari.push(newgiorno.orari[0])
+            }else{
+              this.arrDateOk[2].giorni.push(newgiorno)
+            }
+          
+        }      
+      }
+      }
+      
+      
 
       });  
     },
-    switchMonth(i){
-      this.selectedMonth = i
-      this.fillerday = this.arrDateOk[this.selectedMonth].giorni[0].dayweek - 1
-      console.log(this.arrDateOk[this.selectedMonth].giorni[0].dayweek)
-    },
-    selectday(i){
-      if(this.arrDateOk[this.selectedMonth].giorni[i].status){
-        this.arrDateOk[this.selectedMonth].giorni.forEach(element => {
-          element.status = false
-        });
-        
-        this.arrDateOk[this.selectedMonth].giorni[i].status= false
-      }else{
-        this.arrDateOk[this.selectedMonth].giorni.forEach(element => {
-          element.status = false
-        });
-        
-        this.arrDateOk[this.selectedMonth].giorni[i].status= true
+    
+    order_validations() {
+      this.isValid = true;
+      
+      if (!this.name) {
+        this.nameError = "Il campo 'nome' è richiesto!";
+        this.isValid = false;
+      } else if (this.name.length < 2) {
+        this.nameError = "Il campo 'nome' è troppo corto!";
+        this.isValid = false;
+      } else if (this.name.length > 50) {
+        this.nameError = "Il campo 'name' non può superare i 50 caratteri!";
+        this.isValid = false;
+      }
+      if (!this.service) {
+        this.serviceError = "Il campo 'servizio' è richiesto!";
+        this.isValid = false;
+      }
+      if (!this.phone) {
+        this.phoneError = "Il campo 'N° telefono' è richiesto!";
+        this.isValid = false;
+      }
+      // modificare quando verrà cambiato il tipo di dato per il telefono (numerico)
+      else if (this.phone.length <= 10 && this.phone.length >= 12) {
+        this.phoneError = "Inserire un numero di telefono valido senza spazi";
+        this.isValid = false;
+      }
+      
+      if (!this.date_id) {
+        this.dateError = "Seleziona una data e un orario!" ;
+        this.isValid = false;
+      }
+      
+      
+      if (!this.isValid) {
+        return;
       }
     },
-         
-
-
-    // order_validations() {
-    //    this.isValid = true;
-
-    //   if (!this.name) {
-    //     this.nameError = "Il campo 'nome' è richiesto!";
-    //     this.isValid = false;
-    //   } else if (this.name.length < 2) {
-    //     this.nameError = "Il campo 'nome' è troppo corto!";
-    //     this.isValid = false;
-    //   } else if (this.name.length > 50) {
-    //     this.nameError = "Il campo 'name' non può superare i 50 caratteri!";
-    //     this.isValid = false;
-    //   }
-
-    //   if (!this.phone) {
-    //     this.phoneError = "Il campo 'N° 'telefono' è richiesto!";
-    //     this.isValid = false;
-    //   }
-
-    //   else if (this.phone.length !== 10) {
-    //     this.phoneError = "Il campo 'N° 'telefono' deve essere di 10 cifre!";
-    //     this.isValid = false;
-    //   }
-
-    //   if (!this.idate) {
-    //     this.dateError = "Seleziona una data!" ;
-    //     this.isValid = false;
-    //   }
-    //   if (!this.timeSlot) {
-    //     this.timeError = "Seleziona una fascia oraria!";
-    //     this.isValid = false;
-    //   }
-    //   if (!this.nperson) {
-    //     this.npersonError = "Seleziona una numero di ospiti!";
-    //     this.isValid = false;
-    //   }
-
-    //   if (!this.isValid) {
-    //     return;
-    //   }
-    // },
-
     sendOrder() {
       this.phoneError = "";
       this.nameError = "";
@@ -234,7 +527,7 @@ export default {
       this.dateError = "";
       this.npersonError = "";
       this.isValid = true;
-      //this.order_validations();
+      this.order_validations();
       console.log(this.timeSlot);
       if (this.isValid) {
         this.loading = true;
@@ -245,9 +538,9 @@ export default {
           date_id: this.date_id,
           
         };
-
+        
         console.log(data);
-
+        
         console.log(JSON.stringify(this.state.arrQt));
         axios.post(state.baseUrl + "api/reservations", data).then((response) => {
           this.success = response;
@@ -257,7 +550,7 @@ export default {
         this.phone = "";
         this.date_id = "";
         this.service = "";
-
+        
         this.state.arrId= [];
         this.state.arrQt= [];
         this.state.arrCart= [];
@@ -265,9 +558,35 @@ export default {
         this.arrTimesSlotApi= [];
       }
     },
+    
+    switchMonth(i){
+      this.selectedDay.i= 0
+      this.selectedMonth = i
+      if(this.arrDateOk[i].giorni[0].dayweek == 0){
 
-
-
+        this.fillerday = 0
+      }else{
+        this.fillerday = this.arrDateOk[i].giorni[0].dayweek - 1
+      }
+      
+    },
+    selectday(giorno, giornos, mese, i, y){
+      this.selectedDay.i = i
+      this.selectedDay.day = giorno
+      this.selectedDay.month = mese
+      this.selectedDay.year = y
+      this.selectedDay.day_week = giornos
+      this.select = true
+      this.date_id= ''
+      
+    },
+    selectTime(dateid){
+      this.date_id =dateid 
+      console.log(this.date_id)   
+    },
+    inputservice(s){
+      this.service= s
+    },
     inputTime(id){
     this.date_id=id
     }
@@ -275,7 +594,7 @@ export default {
   created() {
    
     
-      
+    this.getservice();  
     this.filterDate();
     this.state.actvPage = 6;
   },
@@ -283,450 +602,360 @@ export default {
 </script>
 
 <template>
-  <div class="menu">
-    <sh/>
-    <div class="top-menu">
-      <h1>Prenota il tuo tavolo</h1>
-    </div>
-   
-
-    <div class="form" id="orderForm">
-      <div class="sec-form">
-          <label for="name">Nome e Cognome</label>
+  <main >
+    <div class="container">
+      <section>
+        <span class="fs-s sec-title">Inserisci i tuoi dati</span>
+        <div class="name card">
+          <label class="fs-xs" for="name">Nome e Cognome</label>
           <input v-model="name" type="text" placeholder="Nome e Cognome" id="name" />
           <div v-if="nameError" id="nameError">{{ nameError }}</div>
-      </div>
-      <div class="sec-form">
-           <label for="phone">Numero di telefono</label>
-            <input
-            v-model="phone"
-            type="text"
-            onkeypress="return /[0-9]/i.test(event.key)"
-            placeholder="N° telefono"
-            id="phone"
-          />
-          <div v-if="phoneError" id="phoneError">{{ phoneError }}</div>
-      </div>
-      <div class="sec-form nperson">
-        <label for="nperson">service</label>
-        <input
-            v-model="nperson"
-            type="text"
-            
-            placeholder="service"
-            id="nperson"
-          />
-        <div v-if="npersonError" id="npersonError">{{ npersonError }}</div>
-      </div>
-
-
-      <div class="sec-form date">
-        <span>Seleziona una data </span>
-        <div>
-          <span @click="switchMonth(i)" class="mesi" v-for="(mese, i) in arrDateOk" :key="mese.mese">{{ nameMesi[mese.mese]  }}</span>
         </div>
-        <div class="calendar">
-      
-          <div v-for="n in fillerday"  class="giorno">  </div>
-          <div @click="selectday(i)" class="giorno" v-for="(giorno, i) in arrDateOk[selectedMonth].giorni" :key="i">
-            {{ giorno.giorno }} 
-            <div  :class="giorno.status ? 'orari' : ''">
-              <div v-for="i in giorno.orari" >
-                <span @click="inputTime(i.date_id)" :class="giorno.status ? 'orario' : 'orario-off'">
-                  {{ i.orario }}
-                </span>
-              </div>
-            </div>
+        <div class="phone card">
+            <label class="fs-xs" for="phone">Numero di telefono</label>
+              <input
+              v-model="phone"
+              type="text"
+              onkeypress="return /[0-9]/i.test(event.key)"
+              placeholder="N° telefono"
+              id="phone"
+            />
+            <div v-if="phoneError" id="phoneError">{{ phoneError }}</div>
+        </div>
+        <div class="c-mesi card">
+          <label class="fs-xs">Srvizio</label>
+          <span 
+            v-for="(s, i) in arrService" 
+            @click="inputservice(s.name)" 
+            :class="i == arrService.length - 1  ? 'last-mese' : '', i == 0 ? 'first-mese' : '', service == s.name ? 'mese-on' : ''" 
+            class="mesi" 
+            :key="i"
+            >{{ s.name  }} - €{{ s.price / 100 }}
+          </span>
+          <div v-if="serviceError" id="serviceError">{{ serviceError }}</div>
+        </div> 
+      </section>
+      <section>
+        <span class="fs-s sec-title">scegli una data</span>
+
+        <div class="c-mesi card">
+          <label class="fs-xs">Mese</label>
+          <span @click="switchMonth(i)" class="mesi" :class="i == 2 ? 'last-mese' : '', i == 0 ? 'first-mese' : '', selectedMonth == i ? 'mese-on' : ''" v-for="(mese, i) in arrDateOk" :key="mese.mese">{{ nameMesi[mese.mese]  }}</span>
+        </div> 
+        <div class="calendar card">
+          <label class="fs-xs">Giorno</label>
+          <div class="dayweek">
+            <span>lun</span>
+            <span>mar</span>
+            <span>mer</span>
+            <span>gio</span>
+            <span>ven</span>
+            <span>sab</span>
+            <span>dom</span>
+          </div>
+          <div class="main-calendar">
+
+            <div v-for="n in fillerday" :key="n" class="giorno">  </div>
+            <span class="giorno" :class="selectedDay.i == i ? 'day-on' : ''" v-for="(giorno, i) in arrDateOk[selectedMonth].giorni" :key="i" @click="selectday(giorno.giorno, giorno.dayweek, giorno.month, i, giorno.year)">
+              {{ giorno.giorno }} 
+            </span>
           </div>
         </div>
-        
-        
-        <button v-if="!loading"
-          class="btn-send"           
-          @click.prevent="sendOrder"       
-          data-action='submit'>conferma</button>
+          
+   
+      </section>
+      <section>
+        <span class="fs-s sec-title">scegli un orario</span>
+        <div class="orari card">
+          <label class="fs-xs">Mattina</label>
+          <div class="main-orari">
+            <div class="orario" 
+            v-for="n in arrDateOk[selectedMonth].giorni[selectedDay.i].orari " 
+            :class="n.pmam == 'am' ? '' : 'orario-off', n.date_id == date_id ? 'o-on' : ''"  
+            :key="n.date_id" 
+            @click="selectTime(n.date_id)">
+            <span 
+            :class="n.date_id == date_id ? 'orario-on' : ''"
   
-        <!--<span v-if="!loading" @click="sendOrder()" class="btn">Invia</span>-->
-      </div>
+               >{{ n.orario }}</span> 
+            </div>
+
+          </div>
+        </div>
+        <div class="orari card">
+          <label class="fs-xs">Pomeriggio</label>
+          <div class="main-orari">
+            <div class="orario" 
+            v-for="n in arrDateOk[selectedMonth].giorni[selectedDay.i].orari " 
+            :class="n.pmam == 'pm' ? '' : 'orario-off', n.date_id == date_id ? 'o-on' : ''"  
+            :key="n.date_id" 
+            @click="selectTime(n.date_id)">
+            <span 
+            :class="n.date_id == date_id ? 'orario-on' : ''"
+  
+               >{{ n.orario }}</span> 
+            </div>
+
+          </div>
+        </div>
+        <div v-if="dateError" id="dateError">{{ dateError }}</div>
+    
+     
+        <button v-if="!loading"
+            class="button"           
+            @click.prevent="sendOrder"       
+            data-action='submit'>conferma
+        </button>
+      </section>
+
+
     </div>
+    
+      
 
 
+  
 
-    <div v-if="loading" class="loop cubes">
-      <div class="item cubes"></div>
-      <div class="item cubes"></div>
-      <div class="item cubes"></div>
-      <div class="item cubes"></div>
-      <div class="item cubes"></div>
-      <div class="item cubes"></div>
-    </div>
-  </div>
+  </main>
 </template>
 
 <style scoped lang="scss">
 @use "../assets/styles/general.scss" as *;
+main{
+  .container{
+    height: 100%;
+    @include dfc;
+    justify-content: space-between;
+    overflow: auto;
+    background: radial-gradient(419.75% 336% at 100% 102.97%, #333 0%, #808080 30.34%, #322B2B 41.15%, #FFF 81.23%);
+    section{
+      @include dfa;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 3%;
+      width: calc((100% - 6rem) / 3);
+      background: rgba(112, 99, 79, 0.45);
+      height: 100%;
+      padding: 20px;
+      padding-bottom: 4px;
 
-.menu{
-  .top-menu{
-    h1{
-      text-align: center;
-      text-transform: uppercase;
-      padding-top: 2rem;
-      font-size: 30px;
+      .sec-title{
+        color: #C1AA88;
+        text-align: center;
+        white-space: nowrap;
+        margin-bottom: 15px;
+        font-weight: 700;
+        letter-spacing: 2.7px; 
+        text-transform: uppercase;
+      }
+      label{
+        width: 100%;
+        color: white;
+        font-family: Athiti;
+
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 2.7px; 
+      }
+      .card{
+        @include dfc;
+        flex-direction: column;
+        width: 100%;
+        justify-content: space-between;
+        background-color: #C1AA88; 
+        border-radius: 7px;
+        overflow: hidden;
+        height: auto;
+        input{
+          width: 100%;
+          height: 40px;
+          border-radius:  0px 0px 7px 7px;
+          border: 4px solid rgba(255, 255, 255, 0.57);
+          background: #A99B86;
+          color: white;
+          font-family: Athiti;
+
+          text-align: center;
+        }
+        ::placeholder{
+          color: white;
+          font-family: Athiti;
+
+          margin-left: 10px;
+          text-align: center;
+        }
+      }
+      .c-mesi{
+        display: flex;
+        flex-direction: column;
+        .mesi{
+          width: 100%;
+          border: 4px solid rgba(255, 255, 255, 0.57);
+          border-top: 2px solid rgba(255, 255, 255, 0.57);
+          border-bottom: 2px solid rgba(255, 255, 255, 0.57);
+          background: #A99B86;
+          color: white;
+          font-family: Athiti;
+
+          font-weight: 700;
+          text-align: center;
+          text-transform: uppercase;
+          transition: all 300ms ease-in-out;
+        }
+        .mesi:hover{
+          padding: 10px 0;
+          transition: all 300ms ease-in-out;
+          background-color: #e9e1d5;
+
+        }
+        .mese-on{
+          padding: 10px 0;
+          transition: all 300ms ease-in-out;
+          background-color: #e9e1d5;
+          color: black;
+
+        }
+        .last-mese{
+          border-radius:  0px 0px 7px 7px;
+          border-bottom: 4px solid rgba(255, 255, 255, 0.57);
+
+        }
+        .first-mese{
+          border-top: 4px solid rgba(255, 255, 255, 0.57);
+
+        }
+
+      }
+      .calendar{
+        padding: 0 20px 10px;
+        .dayweek{
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+          margin: 10px 0 15px;
+          color: #FFF;
+          text-align: center;
+          font-family: Athiti;
+          font-weight: 700;
+          width: 100%;
+          max-width: 230px ;
+        }
+        .main-calendar{
+          max-width: 230px ;
+          width: 100%;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+          row-gap:3px;
+          column-gap:3px;
+          .giorno{
+            @include dfc;
+            color: #FFF;
+            text-align: center;
+            font-family: Athiti;
+            font-weight: 700;
+            letter-spacing: 2.25px; 
+            border: 2px solid rgba(190, 163, 97, 0.46);
+            background: rgba(255, 255, 255, 0.57);
+            border-radius: 7px;
+            width: 100%;
+            aspect-ratio: 1;
+            transition: all 300ms ease-in-out;
+          }
+          .giorno:hover{
+            scale: 1.06;
+            border: 2px solid rgba(190, 163, 97, 0.46);
+            transition: all 300ms ease-in-out;
+          }
+          .day-on{
+            scale: 1.06;
+            border: 2px solid rgba(255, 255, 255, 0.765);
+            color: black;
+
+          }
+        }
+      }
+      .main-orari{
+        @include dfc;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding: 5px;
+        background-color: rgba(255, 255, 255, 0.57);
+      }
+      .orario{
+        width: calc((100% - 5px) / 2);
+        
+        background: #A99B86;
+        color: white;
+        font-family: Athiti;
+
+        font-weight: 700;
+        text-align: center;
+        text-transform: uppercase;
+        transition: all 300ms ease-in-out;
+        span{
+          //width: 100%;
+
+        }
+      
+        
+      }
+      .orario:hover{
+        background-color: white;
+        color: black;
+      }
+      .o-on{
+        background-color: white;
+        border: 5px solid rgba(255, 255, 255, );
+        background-color: #e9e1d5;
+
+      }
+      .orario-on{
+  
+        transition: all 300ms ease-in-out;
+        color: black;
+
+      }
+      .orario-off{
+        display: none;
+        width: 0 !important;
+      }
+    }
+    section:hover{
+      background: #70634F;
+    }
+    input::selection{
+      border: none;
+      color: white;
     }
   }
+
+  
 }
-.sec-form.date{
-  @include dfc;
-  flex-direction: column;
-  gap: 3rem!important;
-}
-.calendar{
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  border: solid 2px white;
-  position: relative;
-  background-color:rgb(157, 18, 18) ;
-  .giorno{
-    @include dfc;
-    padding: 10px;
-    width: calc(100% / 7);
-    aspect-ratio: 1;
-    border: solid 2px white;
-    .orari{
-      background-color: #fe4252;
-      position: absolute;
-      width: 50%;
-      height: auto;
-      bottom: 50%;
-      transform: translate(-50%, 50%);
-      left: 50%;
-      z-index: 100;
-      @include dfc;
-      gap: 5px;
+@media (max-width:900px) {
+  main{
+    .container{
+
       flex-direction: column;
-      padding: 10px;
-      border: solid white 3px;
-      .orario{
-        display: block;
-        padding: 3px 10px;
-        border: solid white 3px;
-        border-radius: 100px;
+      
+      gap: 20px;
+      padding: 20px 0 ;
+      section{
+        width: 80%;
+        height: auto;
+        padding: 20px;
+        gap: 15px;
+        .sec-title{
+          white-space: wrap;
+        }
       }
     }
   }
 }
-.orario-off{
-  display: none;
-}
-.mesi{
-  padding: 10px 20px ;
-  border: solid 2px white;
-  margin: 5px;
-  border-radius: 20px;
-}
-.actv{
-  color: white;
-  background-color: $c-header !important;;
-}
-
-
-.form{
-  max-width: 450px;
-  width: 100%;
-  margin:  2rem auto;
-  @include dfc;
-  flex-direction: column;
-  gap: 1rem;
-  .sec-form{
-    border-radius: 4px;
-    width: 100%;
-    border: 1px solid $c-nav-link;
-    background-color: $c-footer-nav;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem;
-    input{
-      background-color: #fe425200;
-      border: 1px solid $c-nav-link;
-      color: $c-nav-link;
-      padding: 1rem;
-      border-radius: .4em;
-      
-    }
-    textarea{
-      background-color:$c-footer-nav;
-      resize: none;
-      border-radius: .4em;
-      border: 1px solid $c-nav-link;
-      padding: 1rem;
-    }
-  }
-  .sec-form{
-    .nperson{
-      
-      width: 100%;
-    }
-  }
-  .btn-send{
-    border: 1px solid $c-nav-link;
-    background-color: $c-header;
-    max-width: 450px;
-    width: 100%;
-    padding: .4rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 20px;
-    margin-top: 10px
-  }
-}
-
-::placeholder {
-  opacity: 1;
-  color: white;
-}
-
 #nameError,
-#phoneError,
-#timeError,
 #dateError,
-#timeError,
-#npersonError {
-  text-align: center;
-  font-size: 0.8em;
-  color: red;
-  margin-top: 0.3rem;
+#serviceError,
+#phoneError{
+ color: rgb(192, 19, 19);
+ text-shadow: 0 0 10px rgba(235, 195, 195, 0.779);
 }
-
-
-.btn_loading {
-  cursor: wait;
-}
-.tag {
-  display: flex;
-  gap: 0.4em;
-  background-color: $c-black-op-med;
-  padding: 0.5em;
-  border-radius: 30px;
-}
-
-.cart-mobile {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3em;
-  padding: 1rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  width: 70%;
-  background-color: black;
-  border: 2px solid white;
-}
-.sub-item-off {
-  display: none;
-}
-.sub-item-on {
-  display: inline-block;
-}
-.cart-on {
-  margin: 1rem 1rem 3rem;
-  @include dfj;
-  flex-direction: column;
-  height: 100%;
-  gap: 0.4rem;
-  transition: all linear 0.3s;
-}
-.carts-on {
-  margin: 1rem 1rem 3rem;
-  @include dfj;
-
-  height: 100%;
-  gap: 0.4rem;
-  transition: all linear 0.3s;
-}
-.cart-off {
-  height: 0%;
-  margin: 0;
-  transition: all linear 0.3s;
-}
-.item-on {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-  border: 2px solid white;
-  min-width: 300px;
-
-  transition: all linear 0.3s;
-}
-.item-off {
-  gap: 0rem;
-  padding: 0rem;
-  border: 0px solid white;
-  //width: 0px;
-  height: 0;
-  transition: all linear 0.3s;
-}
-.icon-cart {
-  margin: 1rem;
-}
-
-.cs {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-}
-
-//loader
-.cubes {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-style: preserve-3d;
-}
-
-.loop {
-  transform: rotateX(-35deg) rotateY(-45deg) translateZ(1.5625em);
-}
-
-@keyframes s {
-  to {
-    transform: scale3d(0.2, 0.2, 0.2);
-  }
-}
-
-.item {
-  margin: -1.5625em;
-  width: 3.125em;
-  height: 3.125em;
-  transform-origin: 50% 50% -1.5625em;
-  box-shadow: 0 0 0.125em currentColor;
-  background: currentColor;
-  animation: s 0.6s cubic-bezier(0.45, 0.03, 0.51, 0.95) infinite alternate;
-}
-
-.item:before,
-.item:after {
-  position: absolute;
-  width: inherit;
-  height: inherit;
-  transform-origin: 0 100%;
-  box-shadow: inherit;
-  background: currentColor;
-  content: "";
-}
-
-.item:before {
-  bottom: 100%;
-  transform: rotateX(90deg);
-}
-
-.item:after {
-  left: 100%;
-  transform: rotateY(90deg);
-}
-
-.item:nth-child(1) {
-  margin-top: 6.25em;
-  color: #fe1e52;
-  animation-delay: -1.2s;
-}
-
-.item:nth-child(1):before {
-  color: #ff6488;
-}
-
-.item:nth-child(1):after {
-  color: #ff416d;
-}
-
-.item:nth-child(2) {
-  margin-top: 3.125em;
-  color: #fe4252;
-  animation-delay: -1s;
-}
-
-.item:nth-child(2):before {
-  color: #ff8892;
-}
-
-.item:nth-child(2):after {
-  color: #ff6572;
-}
-
-.item:nth-child(3) {
-  margin-top: 0em;
-  color: #fe6553;
-  animation-delay: -0.8s;
-}
-
-.item:nth-child(3):before {
-  color: #ffa499;
-}
-
-.item:nth-child(3):after {
-  color: #ff8476;
-}
-
-.item:nth-child(4) {
-  margin-top: -3.125em;
-  color: #fe8953;
-  animation-delay: -0.6s;
-}
-
-.item:nth-child(4):before {
-  color: #ffb999;
-}
-
-.item:nth-child(4):after {
-  color: #ffa176;
-}
-
-.item:nth-child(5) {
-  margin-top: -6.25em;
-  color: #feac54;
-  animation-delay: -0.4s;
-}
-
-.item:nth-child(5):before {
-  color: #ffce9a;
-}
-
-.item:nth-child(5):after {
-  color: #ffbd77;
-}
-
-.item:nth-child(6) {
-  margin-top: -9.375em;
-  color: #fed054;
-  animation-delay: -0.2s;
-}
-
-.item:nth-child(6):before {
-  color: #ffe49a;
-}
-
-.item:nth-child(6):after {
-  color: #ffda77;
-}
-  
-.badge{
-  border: 2px solid white;
-  border-radius: 300px;
-  width: 70px;
-  text-align: center;
-  padding: 5px ;
-  margin: 5px;
-}
-.badge-off{
-  background-color: rgb(210, 32, 19);
-  padding: 5px 10px;
-  margin: 5px;
-}
-
-
 </style>

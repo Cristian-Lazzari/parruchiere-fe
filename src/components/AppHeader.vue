@@ -14,154 +14,114 @@
 
 
 <template>
-  <div class="header">
-    <div class="btn-menu" @click="state.openside">Menu</div>
-    <div class="cont">
-      <div class="center">
-        <h1 id="title">Il Capriccio <br> di Leo</h1>
-        <div class="img">
-          <p>"la nostra storia è qualità raggiunta per essere gustata"</p>
-          <div class="overlay"></div>
-        </div>
+  <header>
+    <router-link :to="{ name: 'home' }"  class="link" :class=" state.sideMenuValue ? 'nav-off' : '' ">
+    
+      <img src="../assets/img/logobarbiere 1.png" alt="" class="logo">
+    </router-link>
+    <nav class="fs-s" :class=" state.sideMenuValue ? 'nav-off' : '' ">
+      <router-link :to="{ name: 'home' }"  class="link">HOME</router-link>
+      <router-link :to="{ name: 'gallery' }"  class="link">I NOSTRI TAGLI</router-link>
+      <router-link :to="{ name: 'prenotaServizio' }"  class="link">PRENOTA</router-link>
+      <router-link :to="{ name: 'contatti' }"  class="link">CONTATTI</router-link>
+    </nav>
+    <svg class="burger" width="92" height="75" viewBox="0 0 92 75" fill="none" xmlns="http://www.w3.org/2000/svg" @click="state.openside" :class=" state.sideMenuValue ? 'nav-off' : '' ">
+      <g filter="url(#filter0_d_92_200)">
+        <rect x="6" y="6" width="72" height="6.68041" rx="3.34021" fill="#8D7B50"/>
+        <rect x="6" y="7.48453" width="72" height="6.68041" rx="3.34021" fill="#BEA361"/>
+        <rect x="6" y="52.0206" width="72" height="6.68041" rx="3.34021" fill="#8D7B50"/>
+        <rect x="6" y="53.5052" width="72" height="6.68041" rx="3.34021" fill="#BEA361"/>
+        <rect x="6" y="29.0103" width="72" height="6.68041" rx="3.34021" fill="#8D7B50"/>
+        <rect x="6" y="30.4948" width="72" height="6.68041" rx="3.34021" fill="#BEA361"/>
+      </g>
+      <defs>
+        <filter id="filter0_d_92_200" x="0" y="0" width="92" height="74.1856" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset dx="4" dy="4"/>
+          <feGaussianBlur stdDeviation="5"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_92_200"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_92_200" result="shape"/>
+        </filter>
+      </defs>
+    </svg>
 
-      </div>
-      <div class="par" v-if="state.setting[2].status" >
-        Finalmente un po di riposo anche per noi.. siamo in ferie dal {{ state.setting[2].from }} e torneremo il  {{ state.setting[2].to }}
+    <div :class=" state.sideMenuValue ? 'mobile-menu-on' : 'mobile-menu-off' ">
+      <div :class=" state.sideMenuValue ? 'nav-link-on' : 'nav-link-off' ">
+        <router-link :to="{ name: 'home' }"  class="link">HOME</router-link>
+        <router-link :to="{ name: 'gallery' }"  class="link">I NOSTRI TAGLI</router-link>
+        <router-link :to="{ name: 'prenotaServizio' }"  class="link">PRENOTA</router-link>
+        <router-link :to="{ name: 'contatti' }"  class="link">CONTATTI</router-link>
       </div>
     </div>
-    </div>
+  </header>
 </template>
 
 <style lang="scss" scoped>
 @use '../assets/styles/general.scss' as *;
-.btn-menu{
-  display: none;
-  margin-left: 10px;
-  text-transform: uppercase;
-  
-  color: $c-white;
-  border: 2px solid white;
-  border-top: none;
-  font-weight: bolder;
-  width: fit-content;
-  padding: .8rem 2rem 1rem;
-  border-radius: 0 0 20px 20px ;
-  
-    
-  position: absolute;
-  left: 10px;
-  top: 0px;
-  z-index: 20;
-
-}
-.header{
-  background-color: $c-header;
-  margin-left: 2rem;
-  height: 40%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  .cont{
-    @include dfc;
-    flex-direction: column;
-    justify-content: space-around;
+header{
+  @include dfc;
+  justify-content: space-between;
+  background-image: url('../assets/img/header.png');
+  height: 150px;
+  padding: 20px;
+  border-bottom: 4px solid rgba(215, 217, 220, 0.53);
+  .logo{
     height: 100%;
-    width: 100%;
+  }
+  nav{
+    @include dfc;
+    justify-content: space-between;
+    width: 60%;
+    .link{
+      color: white;
+      text-shadow:8px 8px 20px rgba(0, 0, 0);
+      font-family: Averia Serif Libre;
+    }
+  }
+  .burger{
+    height: 0;
+    width: 0;
+  }
+  .mobile-menu-off{
+    display: none;
+    height: 0;
+  }
+  .mobile-menu-on{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 200;
+  }
+  .nav-link-off{
     
-    .center{
+    display: none;
+  }
+}
+.nav-off{
+  display: none !important; 
+}
 
-      //height: 80%;
-      padding: 0 4rem;
-      @include dfc;
-      justify-content: space-between;
-  
-      width: 100%;
-  
-      h1{
-        
-        color: white;
-        font-family: 'Playball', cursive;
-        font-size: 60px;
-        text-shadow: -3px -3px 15px black;
-        text-align: center;
-      }
+@media (max-width:900px) {
+  .logo{
+    height: auto;
+    width: 170px;
+  }
+  nav{
+    display: none;
+    .link{
       
-      .img{
-        background-image: url('../assets/img/pizza-olio.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-        box-shadow: -7px -7px 20px black;
-        position: relative;
-        height: 200px;
-        aspect-ratio: 1.25;
-        display: flex;
-        padding: 5%;
-        text-align: center;
-        align-items: flex-end;
-        p{
-          position: relative;
-          z-index: 3;
-
-        }
-        .overlay{
-          background-color: rgba(0, 0, 0, 0.495);
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-        }
-        //height: 80px;
-      }
+      display: none;
     }
   }
-  
-}
-.par{
-  color: white;
-  text-shadow: 2px 2px 6px black;
-  padding-bottom: 1em;
-  width: 80%;
-  text-align: center;
-}
-
-@media (max-width:$bp1) {
-
-  .btn-menu{
-    display: block;
-  }
-  .header{
-    margin: 0;
-  }
-  
-}
-@media (max-width:$bp2){
-  .header{
-    background-image: url('../assets/img/pizza-espansa.png');
-    background-position: center;
-    background-size: cover;
-    justify-content: center;
-    .cont{
-      height: 83%;
-      
-  
-      backdrop-filter: blur(5px);
-    }
-    .center{
-      justify-content: center!important;
-    }
-    .img{
-      display: none!important;
+  .burger{
    
-    }
+    width: 50px !important;
+    height: 50px !important;
   }
 }
-
-@media (max-width:$bp3) {
-  
-  #title{
-    font-size: 50px;
-  }
-  
-}
-
 
 </style>

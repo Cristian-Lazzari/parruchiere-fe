@@ -8,14 +8,6 @@ $c-white-op-max: rgba(255, 255, 255, 0.738);
 $c-white-op-med: rgba(255, 255, 255, 0.5);
 $c-white-op-min: rgba(255, 255, 255, 0.2);
 $c-red: red;
-$c-red-op-med: rgba(130, 3, 3, 0.482);
-
-$c-nav:#530A06;
-$c-footer-nav:#300604;
-$c-header:#81181B;
-$c-nav-link:#F96F5D;
-$c-f-t:#A4423B;
-$c-bg: #070608;
 
 $h-c:150px;
 ///**MIXIN**///
@@ -46,30 +38,68 @@ $fs-title-min: 4rem;
 $fs-title-min-s: 3.4rem;
 
 //**button**//
-.btn{
-    user-select: none;
-    padding: .4em 2em;
-    cursor:move;
-    
-    border-radius: 7px;
-    border:2px solid $c-white;
-    
-    color: white;
-    white-space: nowrap;
+.button{
+    @include dfc;
+    gap: 10px;
+    padding: 0px 40px;
+    box-shadow: 10px 16px 4.2px 0px rgba(0, 0, 0, 0.50);
+    border-radius: 12px;
+    border: 5px solid #FFFDFD;
+    background: rgba(66, 66, 66, 0.84);
+    font-family: Athiti;
     text-transform: uppercase;
-    font-size: 20px;
-    transition: all linear .1s;
+    font-weight: 700;
+    font-size: 25px;
+    letter-spacing: 5px;
+
+    position: relative;
+    z-index: 100;
+    .btn-link{
+        color: white;
+    }
+    svg{
+        width: 20px;
+        height: 20px;
+        transition: all ease-in-out 300ms;
+    }
+    transition: all ease-in-out 300ms;
 }
-.btn:hover{
-    background-color: $c-header;
-    scale: 1.05;
-    transition: all linear .2s;
+.button:hover{
+    scale: 1.1;
+    transition: all ease-in-out 300ms;
+    
 }
-.badge{
-    border: 2px solid white;
-    border-radius: 300px;
-    width: 70px;
-    text-align: center;
-    padding: 5px ;
-    margin: 5px;
-  }
+.button:hover svg{
+    width: 35px;
+    height: 35px;
+    transform: rotateY(50deg);
+    transition: all ease-in-out 300ms;
+    
+}
+//font-size
+.fs-l{
+    font-size: 40px;
+}
+.fs-m{
+    font-size: 30px;
+}
+.fs-s{
+    font-size: 23px;
+}
+.fs-xs{
+    font-size: 16px;
+}
+@media (max-width:900px) {
+    .fs-l{
+        font-size: 35px;
+    }
+    .fs-m{
+        font-size: 25px;
+    }
+    .fs-s{
+        font-size: 25px;
+    }
+    .fs-xs{
+        font-size: 18px;
+    }
+}
