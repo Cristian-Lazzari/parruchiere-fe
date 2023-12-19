@@ -25,7 +25,7 @@
       <router-link :to="{ name: 'prenotaServizio' }"  class="link">PRENOTA</router-link>
       <router-link :to="{ name: 'contatti' }"  class="link">CONTATTI</router-link>
     </nav>
-    <svg class="burger" width="92" height="75" viewBox="0 0 92 75" fill="none" xmlns="http://www.w3.org/2000/svg" @click="state.openside" :class=" state.sideMenuValue ? 'nav-off' : '' ">
+    <svg class="burger" width="92" height="75" viewBox="0 0 92 75" fill="none" xmlns="http://www.w3.org/2000/svg" @click="state.openside" >
       <g filter="url(#filter0_d_92_200)">
         <rect x="6" y="6" width="72" height="6.68041" rx="3.34021" fill="#8D7B50"/>
         <rect x="6" y="7.48453" width="72" height="6.68041" rx="3.34021" fill="#BEA361"/>
@@ -86,8 +86,12 @@ header{
     width: 0;
   }
   .mobile-menu-off{
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 0;
+    transition: all .2s linear;
   }
   .mobile-menu-on{
     position: fixed;
@@ -95,6 +99,9 @@ header{
     left: 0;
     height: 100%;
     z-index: 200;
+    background-color: red;
+    width: 100%;
+    transition: all .3s linear;
   }
   .nav-link-off{
     

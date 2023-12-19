@@ -22,9 +22,9 @@
   
     <div class="cont">
       <div class="left-cont">
-        <span class="title">CONTATTACI</span>
+        <span class="title fs-l">CONTATTACI</span>
         <div class="top">
-          <span class="t-left">...nel mondo che vuoi</span>
+          <span class="t-left fs-s">...nel mondo che vuoi</span>
           <div class="main">
             <div class="line">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="bottom">
-          <span class="t-left" >chi siamo</span>
+          <span class="t-left fs-s" >chi siamo</span>
           <div class="main">
             <div class="line">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
@@ -70,12 +70,12 @@
       </div>
       <div class="right-cont">
         <div class="main-right">
-          <span class="title">dove siamo</span>
+          <span class="title fs-l">dove siamo</span>
           <div class="top">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
               <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
             </svg>
-            <span> Via numero civico cap città</span>
+            <span class="t-left fs-s"> Via numero civico cap città</span>
           </div>
           <div class="bottom">
             <a href=""><img src="../assets/img/posizione.png" alt=""></a>
@@ -91,16 +91,19 @@
 @use '../assets/styles/general.scss' as *;
 
 
-
+svg{
+    width: 25px;
+    height: 25px;
+}
   .cont{
     display: flex;
     justify-content: space-between;
     background-image: url('../assets/img/body\ \(1\).png');
     background-size: cover;
     background-repeat: no-repeat;
-    overflow: hidden;
+    overflow: auto;
     background-position: center;
-    
+    height: 100%;
   }
   .left-cont{
     margin-left: 1rem;
@@ -110,12 +113,12 @@
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-
+    
 
     .title{
       text-align: center;
       padding: 20px;
-      font-size: 30px;
+      
       color: #C1AA88;
     }
 
@@ -131,7 +134,7 @@
       .t-left{
         background-color: #C1AA88;
        color: white;
-       font-size: 30px;
+       
        border-top-left-radius: 10px;
        border-top-right-radius: 10px;
        padding: 10px;
@@ -146,7 +149,7 @@
         border-bottom-right-radius: 10px;
         padding: 20px;
         color: white;
-        font-size: 20px;
+        
 
         .line{
           width: 100%;
@@ -165,14 +168,13 @@
     
     .main-right{
       text-align: center;
-      padding: 20px;
-      font-size: 30px;
+      padding: 10px;
       color: #C1AA88;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-transform: uppercase;
-
+      padding-bottom: 10rem;
       .title{
         margin-bottom: 3rem;
       }
@@ -197,13 +199,54 @@
         border-bottom-right-radius: 10px;
         img{
           border-radius: 10px;
-          width: 90%;
+          width: 85%;
+          padding-bottom: 20px;
         }
       }
     }
   }
 
 
+  
 
+  @media (max-width: 1050px) {
+    
+    .left-cont,{
+      gap: 1rem!important;
+    }
+
+  }
+
+  @media (max-width: 900px) {
+    
+    .cont{
+      flex-direction: column!important;
+      gap: 2rem;
+
+      .left-cont, .right-cont{
+        width: 100%;
+        margin: auto;
+        padding: 20px;
+      }
+    }
+
+    .left-cont, .right-cont{
+      width: 90%!important;
+    }
+  }
+
+  @media (max-width: 500px) {
+    
+    .left-cont, .right-cont{
+        
+      .top, .bottom{
+        width: 100%!important;
+      }
+      }
+    
+    
+    
+  }
+  
 
 </style>
