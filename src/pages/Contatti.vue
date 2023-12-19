@@ -175,6 +175,7 @@
 
       .title{
         margin-bottom: 3rem;
+        color: red;
       }
       .top{
         padding: 1rem;
