@@ -4,34 +4,34 @@ export const state = reactive({
     sideMenuValue: 0,
 
     infomenu: 0,
-    arrCart:[],
-    arrId:[],
-    arrQt:[],
-    totCart:0,
+    arrCart: [],
+    arrId: [],
+    arrQt: [],
+    totCart: 0,
     //setting:[],
-    setting:[
-        {status: 1},
-        {status: 1},
-        {status: 1},
+    setting: [
+        { status: 1 },
+        { status: 1 },
+        { status: 1 },
     ],
     actvPage: 1,
-    //baseUrl: 'https://db.dashboardristorante.it/',
-    baseUrl: 'http://127.0.0.1:8000/',
+    baseUrl: 'https://dashboard-ce.future-plus.it/',
+    //baseUrl: 'http://127.0.0.1:8000/',
     getImageUrl(image) {
-		return image
-			? this.baseUrl + 'public/storage/' + image
-			: this.baseUrl + 'public/storage/default.png';
-	},
+        return image
+            ? this.baseUrl + 'public/storage/' + image
+            : this.baseUrl + 'public/storage/default.png';
+    },
 
-    openside(){
-        if(this.sideMenuValue){
+    openside() {
+        if (this.sideMenuValue) {
             this.sideMenuValue = 0
-        }else{
+        } else {
             this.sideMenuValue = 1
-            
+
         }
     },
-    updateActvPage(page){
+    updateActvPage(page) {
         this.sideMenuValue = 0
         this.actvPage = page;
     },
@@ -42,5 +42,5 @@ export const state = reactive({
             this.infomenu = 1
         }
     },
-    
+
 });

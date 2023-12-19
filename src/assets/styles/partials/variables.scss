@@ -9,26 +9,29 @@ $c-white-op-med: rgba(255, 255, 255, 0.5);
 $c-white-op-min: rgba(255, 255, 255, 0.2);
 $c-red: red;
 
-$h-c:150px;
+$h-c: 150px;
+
 ///**MIXIN**///
 @mixin dfc {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 @mixin dfa {
     display: flex;
     align-items: center;
 }
+
 @mixin dfj {
     display: flex;
     justify-content: center;
 }
 
 ///**display-width-responsive**///
-$bp1:920px;
-$bp2:720px;
-$bp3:520px;
+$bp1: 920px;
+$bp2: 720px;
+$bp3: 520px;
 
 ///**font-sizing**///
 $fs-title-max: 7.1rem;
@@ -38,10 +41,10 @@ $fs-title-min: 4rem;
 $fs-title-min-s: 3.4rem;
 
 //**button**//
-.button{
+.button {
     @include dfc;
     gap: 10px;
-    padding: 0px 40px;
+    padding: 5px 60px;
     box-shadow: 10px 16px 4.2px 0px rgba(0, 0, 0, 0.50);
     border-radius: 12px;
     border: 5px solid #FFFDFD;
@@ -54,52 +57,65 @@ $fs-title-min-s: 3.4rem;
 
     position: relative;
     z-index: 100;
-    .btn-link{
+
+    .btn-link {
         color: white;
     }
-    svg{
+
+    svg {
         width: 20px;
         height: 20px;
         transition: all ease-in-out 300ms;
     }
+
     transition: all ease-in-out 300ms;
 }
-.button:hover{
+
+.button:hover {
     scale: 1.1;
     transition: all ease-in-out 300ms;
-    
+
 }
-.button:hover svg{
+
+.button:hover svg {
     width: 35px;
     height: 35px;
     transform: rotateY(50deg);
     transition: all ease-in-out 300ms;
-    
+
 }
+
 //font-size
-.fs-l{
+.fs-l {
     font-size: 40px;
 }
-.fs-m{
+
+.fs-m {
     font-size: 30px;
 }
-.fs-s{
+
+.fs-s {
     font-size: 23px;
 }
-.fs-xs{
+
+.fs-xs {
     font-size: 16px;
 }
+
 @media (max-width:900px) {
-    .fs-l{
+    .fs-l {
         font-size: 35px;
     }
-    .fs-m{
+
+    .fs-m {
         font-size: 25px;
     }
-    .fs-s{
+
+    .fs-s {
         font-size: 25px;
     }
-    .fs-xs{
+
+    .fs-xs {
         font-size: 18px;
     }
 }

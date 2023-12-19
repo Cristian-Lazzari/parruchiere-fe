@@ -75,7 +75,7 @@
         <div class="main-content">
             <div class="p">
                 <span class="title fs-m">Rinnova il tuo look oggi</span>
-                <span class="fs-m">Non aspettare, lascia che i nostri esperti trasformino i tuoi capelli in una vera opera d'arte!</span>
+                <span class="fs-m mb">Non aspettare, lascia che i nostri esperti trasformino i tuoi capelli in una vera opera d'arte!</span>
                 <div class="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
                         <path d="M8.77427 9.97567C5.80698 6.49317 8.51558 2.39044 13.1199 0.416922L30.6683 24.8678L48.8805 1.23097C53.4275 3.41281 56.0211 7.63623 52.9596 10.9815L34.5711 30.3032L42.0684 40.7535C44.7902 39.7306 47.9157 39.5452 50.8404 40.2333C53.765 40.9214 56.2811 42.434 57.9018 44.4786C59.5226 46.5232 60.1329 48.9545 59.6148 51.3023C59.0967 53.65 57.4869 55.7474 55.0968 57.1887C52.7067 58.6301 49.7061 59.313 46.6754 59.1054C43.6447 58.8978 40.7992 57.8144 38.6893 56.0648C36.5794 54.3152 35.3549 52.0237 35.2528 49.6335C35.1506 47.2433 36.178 44.9242 38.1363 43.1247L30.5347 34.5379L22.701 42.7695C24.6083 44.6569 25.5711 47.0213 25.403 49.4054C25.235 51.7895 23.948 54.0238 21.7911 55.6763C19.6342 57.3288 16.7606 58.282 13.7261 58.3515C10.6915 58.421 7.71168 57.602 5.36288 56.0527C3.01407 54.5035 1.46319 52.3342 1.0102 49.9643C0.557207 47.5945 1.23428 45.1925 2.91048 43.223C4.58667 41.2534 7.14288 39.8563 10.0847 39.3017C13.0265 38.7472 16.1449 39.0746 18.8368 40.2208L26.6178 30.1221L8.77427 9.97567ZM20.5148 48.8736C20.536 47.3373 19.7804 45.8462 18.4144 44.7284C17.0483 43.6106 15.1836 42.9576 13.2305 42.9132C11.2774 42.8687 9.39587 43.4364 7.99981 44.4913C6.60375 45.5462 5.80754 47.002 5.78633 48.5383C5.76512 50.0747 6.52064 51.5657 7.8867 52.6835C9.25276 53.8013 11.1175 54.4543 13.0706 54.4987C15.0237 54.5432 16.9052 53.9755 18.3013 52.9206C19.6973 51.8657 20.4936 50.4099 20.5148 48.8736ZM54.8811 49.6559C54.9023 48.1196 54.1468 46.6285 52.7807 45.5107C51.4147 44.3929 49.55 43.74 47.5969 43.6955C45.6438 43.651 43.7622 44.2187 42.3662 45.2736C40.9701 46.3285 40.1739 47.7843 40.1527 49.3206C40.1315 50.857 40.887 52.3481 42.2531 53.4658C43.6191 54.5836 45.4838 55.2366 47.4369 55.2811C49.39 55.3255 51.2716 54.7578 52.6676 53.7029C54.0637 52.648 54.8599 51.1922 54.8811 49.6559Z" fill="#F2F2F2"/>
@@ -100,6 +100,7 @@ main{
     background-size: cover;
     background-repeat: no-repeat;
     overflow: hidden;
+    background-position: center;
     
     
     
@@ -164,22 +165,24 @@ main{
     }
     .main-content{
         @include dfj;
-
+        margin-left: 4rem;
         color: white;
         width: 100%;
         flex-direction: column;
         position: relative;
+        z-index: 2;
         align-items: flex-start;
         .p{
-            
             display: flex;
             flex-direction: column;
             gap: 10px;
-            width: 550px;
+            max-width: 50%;
             margin: 0 0 30px 30px;
             
             .title{
-                width: 350px;
+                position: relative;
+                z-index: 2;
+                width: 600px;
                 font-family: Athiti;
                 font-size: 50px;
                 font-weight: 700;
@@ -189,12 +192,12 @@ main{
             }
             span{
                 font-family: Athiti;
-
+                width: 600px;
                 font-style: normal;
                 font-weight: 700;
                 line-height: 2.5rem;
-
-
+                font-size: 30px;
+                
             }
             .button{
                 align-self: flex-end;
@@ -208,6 +211,7 @@ main{
             max-width: 1100px ;
             margin-right: -30%;
             position: absolute;
+            z-index: 1;
             top: 0;
             right: 0;
             margin-right: -58%;
@@ -219,6 +223,65 @@ svg{
     width: 30px;
     height: 30px;
 }
+
+
+
+
+@media (max-width: 1400px) {
+    
+    aside{
+        padding: 15px!important;
+    }
+}
+
+@media (max-width: 1100px) {
+    
+    aside{
+        display: none!important;
+    }
+
+    .main-content{
+        margin: 0!important;
+        align-items: center!important;
+        .title{
+            width: 100%!important;
+            margin: 0 auto!important;
+        }
+
+        .p{
+            max-width: 100%!important;
+        }
+        .button{
+            align-self: center!important;
+        }
+    }
+}
+@media (max-width:650px) {
+    .main-content{
+        .p{
+            margin-top: 3rem!important;
+            .mb{
+                font-size: 25px!important;
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (min-width:1000px) {
     .pettine{
         margin-right: -50% !important;

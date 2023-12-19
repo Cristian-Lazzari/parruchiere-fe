@@ -105,7 +105,20 @@ header{
   display: none !important; 
 }
 
-@media (max-width:900px) {
+
+@media (max-width:1050px) {
+  
+  nav{
+    
+    .link{
+      
+      font-size: 20px;
+    }
+  }
+  
+}
+
+@media (max-width:950px) {
   .logo{
     height: auto;
     width: 170px;
