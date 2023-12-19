@@ -21,7 +21,7 @@
 <template>
   
     <div class="cont">
-      <div class="left-cont">
+      <section class="left-cont">
         <span class="title fs-l">CONTATTACI</span>
         <div class="top">
           <span class="t-left fs-s">...nel mondo che vuoi</span>
@@ -67,8 +67,8 @@
             
           </div>
         </div>
-      </div>
-      <div class="right-cont">
+      </section>
+      <section class="right-cont">
         <div class="main-right">
           <span class="title fs-l">dove siamo</span>
           <div class="top">
@@ -81,7 +81,7 @@
             <a href=""><img src="../assets/img/posizione.png" alt=""></a>
           </div>
         </div>
-      </div>
+      </section>
     </div>
     
  
@@ -199,16 +199,27 @@ svg{
         border-bottom-right-radius: 10px;
         img{
           border-radius: 10px;
-          width: 85%;
+          width: 650px;
           padding-bottom: 20px;
         }
       }
     }
   }
 
-
   
 
+  
+  @media (max-width: 1600px) {
+    
+   .right-cont{
+    .bottom{
+      img{
+        width: 80%!important;
+      }
+    }
+   }
+
+  }
   @media (max-width: 1050px) {
     
     .left-cont,{
@@ -244,6 +255,9 @@ svg{
       }
       }
     
+      .right-cont{
+        padding: 0!important;
+      }
     
     
   }

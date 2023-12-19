@@ -50,10 +50,23 @@
 
     <div :class=" state.sideMenuValue ? 'mobile-menu-on' : 'mobile-menu-off' ">
       <div :class=" state.sideMenuValue ? 'nav-link-on' : 'nav-link-off' ">
-        <router-link :to="{ name: 'home' }"  class="link">HOME</router-link>
-        <router-link :to="{ name: 'gallery' }"  class="link">I NOSTRI TAGLI</router-link>
-        <router-link :to="{ name: 'prenotaServizio' }"  class="link">PRENOTA</router-link>
-        <router-link :to="{ name: 'contatti' }"  class="link">CONTATTI</router-link>
+        <div  @click="state.openside">
+          <router-link :to="{ name: 'home' }" class="link" >HOME</router-link>
+        </div>
+          
+        <div @click="state.openside">
+          <router-link :to="{ name: 'gallery' }" class="link" >I NOSTRI TAGLI</router-link>
+        </div>
+          
+        <div @click="state.openside">
+          <router-link :to="{ name: 'prenotaServizio' }" class="link" >PRENOTA</router-link>
+        </div>
+          
+        <div @click="state.openside">
+          <router-link :to="{ name: 'contatti' }" class="link" >CONTATTI</router-link>
+        </div>
+          
+        
       </div>
     </div>
   </header>
@@ -82,8 +95,7 @@ header{
     }
   }
   .burger{
-    height: 0;
-    width: 0;
+    display: none;
   }
   .mobile-menu-off{
     position: fixed;
@@ -98,13 +110,25 @@ header{
     top: 0;
     left: 0;
     height: 100%;
-    z-index: 200;
-    background-color: red;
+    z-index: 3;
+    background-color: black;
     width: 100%;
     transition: all .3s linear;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-link-on{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    gap: 3rem;
   }
   .nav-link-off{
-    
     display: none;
   }
 }
@@ -112,6 +136,11 @@ header{
   display: none !important; 
 }
 
+.link{
+      color: white;
+      text-shadow:8px 8px 20px rgba(0, 0, 0);
+      font-family: Averia Serif Libre;
+    }
 
 @media (max-width:1050px) {
   
@@ -138,7 +167,10 @@ header{
     }
   }
   .burger{
-   
+    display: block!important;
+    position: fixed;
+    right: 0;
+    z-index: 5;
     width: 50px !important;
     height: 50px !important;
   }
