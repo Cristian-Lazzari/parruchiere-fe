@@ -24,7 +24,7 @@
       <section class="left-cont">
         <span class="title fs-l">CONTATTACI</span>
         <div class="top">
-          <span class="t-left fs-s">...nel mondo che vuoi</span>
+          <label class="t-left fs-s">...nel mondo che vuoi</label>
           <div class="main">
             <div class="line">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="bottom">
-          <span class="t-left fs-s" >chi siamo</span>
+          <label class="t-left fs-s" >chi siamo</label>
           <div class="main">
             <div class="line">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
@@ -75,7 +75,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
               <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
             </svg>
-            <span class="t-left fs-s"> Via numero civico cap città</span>
+            <label class="t-left fs-s"> Via numero civico cap città</label>
           </div>
           <div class="bottom">
             <a href=""><img src="../assets/img/posizione.png" alt=""></a>
@@ -98,8 +98,13 @@ svg{
   .cont{
     display: flex;
     justify-content: space-between;
-    background-image: url('../assets/img/body\ \(1\).png');
+    background: url('../assets/img/sfondo.png'),  rgba(0, 0, 0, 0.603) 50% / cover no-repeat;
+    background-blend-mode: soft-light;
+    backdrop-filter: blur(2px);
+    
+    background-position: center;
     background-size: cover;
+
     background-repeat: no-repeat;
     overflow: auto;
     background-position: center;
@@ -222,7 +227,7 @@ svg{
   }
   @media (max-width: 1050px) {
     
-    .left-cont,{
+    .left-cont{
       gap: 1rem!important;
     }
 

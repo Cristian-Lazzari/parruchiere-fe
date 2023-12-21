@@ -7,6 +7,69 @@ export const state = reactive({
     arrCart: [],
     arrId: [],
     arrQt: [],
+    fakeArrgallery: [
+        {
+            "id": 0,
+            "name": "Leonard",
+            "image": "/src/assets/img/posts.png",
+            "link": false
+        },
+        {
+            "id": 1,
+            "name": "Faulkner",
+            "image": "/src/assets/img/posts.png",
+            "link": true
+        },
+        {
+            "id": 2,
+            "name": "Campbell",
+            "image": "/src/assets/img/posts.png",
+            "link": false
+        },
+        {
+            "id": 3,
+            "name": "Porter",
+            "image": "/src/assets/img/posts.png",
+            "link": false
+        },
+        {
+            "id": 4,
+            "name": "Mcdonald",
+            "image": "/src/assets/img/posts.png",
+            "link": true
+        },
+        {
+            "id": 5,
+            "name": "Sosa",
+            "image": "/src/assets/img/posts.png",
+            "link": true
+        },
+        {
+            "id": 6,
+            "name": "Cardenas",
+            "image": "/src/assets/img/posts.png",
+            "link": true
+        },
+        {
+            "id": 7,
+            "name": "Herman",
+            "image": "/src/assets/img/posts.png",
+            "link": true
+        },
+        {
+            "id": 8,
+            "name": "Gilmore",
+            "image": "/src/assets/img/posts.png",
+            "link": false
+        },
+        {
+            "id": 9,
+            "name": "Dale",
+            "image": "/src/assets/img/posts.png",
+            "link": true
+        }
+        ,
+    ],
     totCart: 0,
     //setting:[],
     setting: [

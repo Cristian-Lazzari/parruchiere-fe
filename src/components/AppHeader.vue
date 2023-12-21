@@ -81,6 +81,8 @@ header{
   height: 150px;
   padding: 20px;
   border-bottom: 4px solid rgba(215, 217, 220, 0.53);
+  position: relative;
+  z-index: 2;
   .logo{
     height: 100%;
   }
