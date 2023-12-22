@@ -187,6 +187,7 @@ main{
                 font-size: 50px;
                 font-weight: 700;
                 line-height: 3.3rem;
+                
                 letter-spacing: -4px;
                 text-transform: uppercase;
             }
