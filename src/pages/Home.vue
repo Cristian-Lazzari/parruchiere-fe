@@ -95,7 +95,8 @@ main{
     padding: 0 10px;
     display: flex;
     gap: 10px;
-
+    position: relative;
+    z-index: 1;
     background-image: url('../assets/img/Schermata\ 2023-12-13\ alle\ 11.04.29.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -187,7 +188,6 @@ main{
                 font-size: 50px;
                 font-weight: 700;
                 line-height: 3.3rem;
-                
                 letter-spacing: -4px;
                 text-transform: uppercase;
             }

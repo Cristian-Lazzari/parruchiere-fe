@@ -702,9 +702,10 @@ export default {
     
      
         <button v-if="!loading"
-            class="button"           
+            :class="state.sideMenuValue ? 'btn-off':'button'"           
             @click.prevent="sendOrder"       
             data-action='submit'>conferma
+            
         </button>
       </section>
 
@@ -930,6 +931,9 @@ main{
   }
 
   
+}
+.btn-off{
+  display: none;
 }
 @media (max-width:900px) {
   main{

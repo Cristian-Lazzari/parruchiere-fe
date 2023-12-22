@@ -112,7 +112,7 @@ header{
     top: 0;
     left: 0;
     height: 100%;
-    z-index: 3;
+    z-index: 3!important;
     background-color: black;
     width: 100%;
     transition: all .3s linear;
