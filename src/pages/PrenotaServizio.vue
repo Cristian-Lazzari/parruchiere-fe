@@ -593,7 +593,6 @@ export default {
   },
   created() {
    
-    
     this.getservice();  
     this.filterDate();
     this.state.actvPage = 6;
