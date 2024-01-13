@@ -174,7 +174,7 @@ justify-content: center;
         z-index: 1;
         
       }
-      .overlay {
+    .overlay {
         opacity: .6;
         border-radius: 100%;
         position: absolute;
